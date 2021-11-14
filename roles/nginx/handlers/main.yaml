@@ -1,0 +1,6 @@
+- name: restart nginx
+  service:
+    name: nginx
+    state: restarted
+    enabled: yes
+  when: 'nginx_syntax_check.stderr is defined and "syntax is ok" in nginx_syntax_check.stderr'

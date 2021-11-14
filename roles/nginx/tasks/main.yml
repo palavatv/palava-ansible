@@ -1,0 +1,71 @@
+- name: Copy ngnix SSL config
+  copy:
+    src: ssl_extra.conf
+    dest: /etc/nginx/ssl_extra
+  notify: "restart nginx"
+
+- name: Copy dhparam
+  copy:
+    src: dhparam
+    dest: /etc/nginx/dhparam
+  notify: "restart nginx"
+
+- name: Increase worker_connections to 10k
+  lineinfile:
+    dest: /etc/nginx/nginx.conf
+    regexp: "^\\s*worker_connections"
+    line: "worker_connections 10000;"
+  notify: restart nginx
+
+- name: Copy ngnix log config
+  copy:
+    src: log_format.conf
+    dest: /etc/nginx/log_format
+  notify: "restart nginx"
+
+- name: Register log_format
+  lineinfile:
+    dest: "/etc/nginx/nginx.conf"
+    regexp: "^include log_format;"
+    line: "include log_format;"
+    insertafter: "^http {"
+  notify: "restart nginx"
+
+- name: Create empty default page
+  template:
+    src: nginx-default.html.j2
+    dest: "/var/www/html/index.html"
+  notify: restart nginx
+
+- name: Create default config
+  template:
+    src: nginx-default.conf.j2
+    dest: "/etc/nginx/sites-available/default"
+  notify: restart nginx
+
+- name: Activate default config
+  file:
+    src: "/etc/nginx/sites-available/default"
+    dest: "/etc/nginx/sites-enabled/default"
+    owner: root
+    group: root
+    state: link
+  notify: restart nginx
+
+- include: page.yml
+  loop: "{{ pages }}"
+  vars:
+    page: "{{ item }}"
+
+- include: stats.yml
+  tags: nginx-stats
+
+- include: prom.yml
+  tags: nginx-prom
+
+- name: Validate nginx config
+  command: nginx -t
+  register: nginx_syntax_check
+  ignore_errors: yes
+
+- meta: flush_handlers
