@@ -1,0 +1,9 @@
+---
+# defaults file for stunserver
+stun_start_daemon: true
+stun_daemon_opts: ""
+stun_primary_ip: ""
+stun_secondary_ip: ""
+stun_primary_port: 3478
+stun_secondary_port: 3479
+stun_daemon_user: nobody
