@@ -13,6 +13,9 @@ Restart=on-failure
 Type=forking
 RestartSec=5
 Environment=SIGNALTOWER_PORT={{ palava_signaltower_port }}
+{% if palava_signaltower_turn_secret %}
+Environment=SIGNALTOWER_TURN_SECRET={{ palava_signaltower_turn_secret }}
+{% endif %}
 Environment=LOG_FILE={{ palava_signaltower_log_dir }}/signaltower.log
 SyslogIdentifier=signaltower
 

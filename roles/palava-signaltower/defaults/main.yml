@@ -5,6 +5,9 @@ palava_signaltower_log_dir: /var/log/signaltower
 palava_signaltower_port: 4233
 palava_signaltower_autostart: yes
 
+palava_signaltower_turn_enabled: no
+palava_signaltower_turn_secret: ''
+
 palava_signaltower_version: master
 
 palava_environment: production
