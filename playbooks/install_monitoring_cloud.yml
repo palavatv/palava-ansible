@@ -1,0 +1,52 @@
+---
+
+- hosts: localhost
+
+  vars:
+      # common networking definitions
+    quad_zero_route: "0.0.0.0/0"
+    TCP_protocol: "6"
+    SSH_port: "22"
+
+    vcn_name: "palava-monitoring"
+    vcn_cidr_block: "10.0.0.0/24"
+    vcn_dns_label: "palavamon"
+
+    ig_name: "palava-monitoring-ig-vcn"
+
+    route_table_name: "palava-monitoring-routetable"
+    # route all internet access to our Internet Gateway
+    route_table_rules:
+        - cidr_block: "{{ quad_zero_route }}"
+          network_entity_id: "{{ ig_id }}"
+
+
+    subnet_cidr: "10.0.0.48/28"
+    subnet_name: "palava-monitoring-subnet"
+    subnet_dns_label: "palavamonsubnet"
+
+    securitylist_name: "palava-monitoring-securitylist"
+
+    # always free shape
+    instance_shape: "VM.Standard.A1.Flex"
+    instance_hostname: "palava-monitoring"
+    instance_name: palava-monitoring-instance
+
+    # persistence
+    volume_name: palava-storevol
+    volume_size_gigabytes: 50
+
+    #########################################
+    # Tenancy specific configuration
+    # *Note* - Override the following variables based on your tenancy
+    # or set a valid value for the corresponding environment variable
+    #########################################
+    instance_compartment: "ocid1.tenancy.oc1..aaaaaaaa3iaognxp3vdmkvpl76mrhg3klxdwqh3tb4kmpgbq726r2rjltljq"
+    # provide an "OL" image
+    # find OL image ocids per region here: https://docs.cloud.oracle.com/iaas/images/image/501c6e22-4dc6-4e99-b045-cae47aae343f/
+    # make sure the image you choose is compatible with Free Tier shape - VM.Standard.E2.1.Micro
+    instance_image: "ocid1.image.oc1.eu-frankfurt-1.aaaaaaaapb65ywn23pl6t6dzc2bk56k4azbvnmsndcr6bfmn5eoei5toc53a"
+    
+  tasks:
+    - include_role: 
+        name: "oci-instance"

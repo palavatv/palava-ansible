@@ -1,0 +1,29 @@
+---
+
+- name: Create a volume
+  oci_blockstorage_volume:
+    availability_domain: "{{ instance_ad }}"
+    compartment_id: "{{ instance_compartment }}"
+    name: "{{ volume_name }}"
+    size_in_gbs: "{{ volume_size_gigabytes }}"
+  register: result
+
+- name: Print volume details
+  debug:
+    msg: "Created a new volume {{ result }}"
+- set_fact:
+    volume_id: "{{result.volume.id }}"
+
+- name: Attach volume to new instance
+  oci_compute_volume_attachment:
+    instance_id: "{{ instance_id }}"
+    type: paravirtualized
+    volume_id: "{{ volume_id }}"
+    compartment_id: "{{ instance_compartment }}"
+  register: result
+
+- name: Print volume attachment details
+  debug:
+    msg: "Attached volume to instance {{ result }}"
+- set_fact:
+    volume_attachment_id: "{{result.volume_attachment.id }}"

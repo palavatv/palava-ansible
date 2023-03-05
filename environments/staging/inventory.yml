@@ -2,4 +2,8 @@
 
 all:
   hosts:
-    185.189.221.157: null
+    children:
+      palava:
+        185.189.221.157: null
+      monitoring:
+        localhost: null

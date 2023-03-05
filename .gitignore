@@ -1,1 +1,3 @@
 ansible.cfg
+collections
+roles/cloudalchemy.*

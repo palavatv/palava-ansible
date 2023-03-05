@@ -1,5 +1,0 @@
-# from galaxy
-- name: cloudalchemy.prometheus
-- name: cloudalchemy.grafana
-- name: geerlingguy.certbot
-- name: community.general

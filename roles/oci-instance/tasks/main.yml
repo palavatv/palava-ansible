@@ -1,0 +1,57 @@
+---
+
+- import_tasks: setup.yml
+
+- name: Launch an instance
+  oci_compute_instance:
+    availability_domain: "{{ instance_ad }}"
+    compartment_id: "{{ instance_compartment }}"
+    name: "{{ instance_name }}"
+    source_details:
+      source_type: image
+      image_id: "{{ instance_image }}"
+    shape: "{{ instance_shape }}"
+    shape_config:
+      memory_in_gbs: 4
+      ocpus: 2
+    create_vnic_details:
+        assign_public_ip: True
+        hostname_label: "{{ instance_hostname }}"
+        subnet_id: "{{ instance_subnet_id }}"
+    metadata:
+        ssh_authorized_keys: "{{ lookup('file',  '~/.ssh/id_rsa.pub' ) }}"
+  register: result
+
+- name: Print instance details
+  debug:
+    msg: "Launched a new instance {{ result }}"
+- set_fact:
+    instance_id: "{{result.instance.id }}"
+
+- import_tasks: persistence.yml
+
+- name: Get the VNIC attachment details of instance
+  oci_compute_vnic_attachment_facts:
+    compartment_id: "{{ instance_compartment }}"
+    instance_id: "{{ instance_id }}"
+  register: result
+
+- name: Get details of the VNIC
+  oci_network_vnic_facts:
+    id: "{{ result.vnic_attachments[0].vnic_id }}"
+  register: result
+- set_fact:
+    instance_public_ip: "{{result.vnic.public_ip}}"
+
+- name: Print the public ip of the newly launched instance
+  debug:
+    msg: "Public IP of launched instance {{ instance_public_ip }}"
+
+- name: Wait (upto 5 minutes) for port 22 to become open
+  wait_for:
+    port: 22
+    host: '{{ instance_public_ip }}'
+    state: started
+    delay: 10
+  vars:
+    ansible_connection: local

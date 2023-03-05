@@ -1,0 +1,8 @@
+roles: 
+  - name: cloudalchemy.prometheus
+  - name: cloudalchemy.grafana
+#  - name: geerlingguy.certbot
+
+collections:
+  - name: oracle.oci
+  - name: community.general
