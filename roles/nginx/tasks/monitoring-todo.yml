@@ -1,0 +1,71 @@
+#jinja2: lstrip_blocks: True
+
+## PROMETHEUS ##
+server {
+  listen 443 ssl http2;
+  server_name {{ prom.domains.prometheus }};
+  root /home/{{ user }}/www/prom/;
+
+  access_log /home/{{ user }}/log/{{ prom.domains.prometheus }}/nginx.access.log;
+  error_log /home/{{ user }}/log/{{ prom.domains.prometheus }}/nginx.error.log;
+
+  include ssl_extra;
+  ssl_certificate /etc/letsencrypt/live/{{ prom.domains.prometheus }}/fullchain.pem;
+  ssl_certificate_key /etc/letsencrypt/live/{{ prom.domains.prometheus }}/privkey.pem;
+
+  location / {
+    auth_basic "{{ stats.basic_auth.message|default('restricted access') }}";
+    auth_basic_user_file /etc/nginx/.htpasswd-stats;
+    proxy_pass http://localhost:9090/;
+  }
+}
+
+## GRAFANA ##
+server {
+  listen 443 ssl http2;
+  server_name {{ prom.domains.grafana }};
+  root /home/{{ user }}/www/prom/;
+
+  access_log /home/{{ user }}/log/{{ prom.domains.grafana }}/nginx.access.log;
+  error_log /home/{{ user }}/log/{{ prom.domains.grafana }}/nginx.error.log;
+
+  include ssl_extra;
+  ssl_certificate /etc/letsencrypt/live/{{ prom.domains.prometheus }}/fullchain.pem;
+  ssl_certificate_key /etc/letsencrypt/live/{{ prom.domains.prometheus }}/privkey.pem;
+
+  location / {
+    auth_basic "{{ stats.basic_auth.message|default('restricted access') }}";
+    auth_basic_user_file /etc/nginx/.htpasswd-stats;
+    proxy_pass http://localhost:7000/;
+  }
+}
+
+## ALERT MANAGER ##
+server {
+  listen 443 ssl http2;
+  server_name {{ prom.domains.alertmanager }};
+  root /home/{{ user }}/www/prom/;
+
+  access_log /home/{{ user }}/log/{{ prom.domains.alertmanager }}/nginx.access.log;
+  error_log /home/{{ user }}/log/{{ prom.domains.alertmanager }}/nginx.error.log;
+
+  include ssl_extra;
+  ssl_certificate /etc/letsencrypt/live/{{ prom.domains.prometheus }}/fullchain.pem;
+  ssl_certificate_key /etc/letsencrypt/live/{{ prom.domains.prometheus }}/privkey.pem;
+
+  location / {
+    auth_basic "{{ stats.basic_auth.message|default('restricted access') }}";
+    auth_basic_user_file /etc/nginx/.htpasswd-stats;
+    proxy_pass http://localhost:9093/;
+  }
+}
+
+## HTTP REDIRECTS ##
+server {
+  listen 80;
+  server_name {{ prom.domains.prometheus }} {{ prom.domains.grafana }} {{ prom.domains.alertmanager }};
+
+  location / {
+    return 301 https://$host$request_uri;
+  }
+}
