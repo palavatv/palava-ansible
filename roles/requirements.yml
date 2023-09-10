@@ -1,5 +1,6 @@
 # from galaxy
 - name: cloudalchemy.prometheus
 - name: cloudalchemy.grafana
+- name: cloudalchemy.alertmanager
 - name: geerlingguy.certbot
 - name: community.general
