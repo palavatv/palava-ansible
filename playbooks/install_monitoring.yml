@@ -3,7 +3,8 @@
   remote_user: root
   become: yes
   roles:
-    - include_role:
+    - name: common
+      include_role:
         name: common
         tasks_from: monitoring.yml
     - cloudalchemy.prometheus
