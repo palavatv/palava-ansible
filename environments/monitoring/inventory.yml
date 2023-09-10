@@ -1,0 +1,3 @@
+monitoring:
+  hosts:
+    128.140.124.42: null

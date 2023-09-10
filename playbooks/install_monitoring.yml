@@ -1,0 +1,11 @@
+- hosts: monitoring
+  strategy: debug
+  remote_user: root
+  become: yes
+  roles:
+    - include_role:
+        name: common
+        tasks_from: monitoring.yml
+    - cloudalchemy.prometheus
+    - cloudalchemy.grafana
+    - cloudalchemy.alertmanager

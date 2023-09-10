@@ -22,12 +22,11 @@ Please note: Replace <ENVIRONMENT> with either **production** or **staging** in 
 
 Requirements: jmespath (deployer host), unzip (target host)
 
-### Grafana
+Adjust inventory and config variables in `environments/monitoring/group_vars/monitoring/main.yml` before prodceeding.
+
+### Prometheus + Grafana + Alert Manager
 
 - `ansible-galaxy install cloudalchemy.grafana`
-- `ansible-playbook -i environments/monitoring/inventory.yml playbooks/install_grafana.yml`
-
-### Prometheus
-
 - `ansible-galaxy install cloudalchemy.prometheus`
-- `ansible-playbook -i environments/monitoring/inventory.yml playbooks/install_prometheus.yml`
+- `ansible-galaxy install cloudalchemy.alertmanager`
+- `ansible-playbook -i environments/monitoring/inventory.yml playbooks/install_monitoring.yml`

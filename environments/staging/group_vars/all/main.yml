@@ -1,5 +1,4 @@
 ---
-
 palava_signaltower_install_dir: /srv/signaltower-staging
 palava_signaltower_log_dir: /var/log/signaltower-staging
 palava_environment: staging
