@@ -6,3 +6,5 @@ palava_web_repo: https://github.com/palavatv/palava-web.git
 palava_web_version: v1.1.0
 palava_web_environment: production
 palava_web_rtc_url: wss://machine.palava.tv
+palava_web_stun_url: ""
+palava_web_turn_urls: ""
