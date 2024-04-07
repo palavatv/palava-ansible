@@ -3,4 +3,4 @@
     dest: "/etc/ssh/sshd_config"
     regexp: "^#?PermitRootLogin "
     line: "PermitRootLogin without-password"
-  notify: "Restart sshd"
+  notify: "restart sshd"
