@@ -42,4 +42,4 @@ Adjust inventory and config variables in `environments/monitoring/` before proce
 Adjust inventory and config variables in `environments/coturn/` before proceeding.
 
 - `ansible-galaxy install systemli.coturn`
-- `ansible-playbook -i environments/monitoring/inventory.yml playbooks/install_coturn.yml`
+- `ansible-playbook -i environments/coturn/inventory.yml playbooks/install_coturn.yml`
