@@ -3,6 +3,12 @@ palava_signaltower_install_dir: /srv/signaltower-production
 palava_signaltower_log_dir: /var/log/signaltower-production
 palava_environment: production
 # Used to configure the TURN server (turn role) to enable TURN in the signaltower role
+# palava_signaltower_turn_enabled: yes
 # palava_signaltower_turn_secret: SOME_SECRET_KEY
 
 palava_signaltower_autostart: yes
+
+palava_web_version: v1.1.0
+palava_web_install_dir: /srv/palava-web
+palava_web_log_dir: /srv/palava-web
+palava_web_machine: machine

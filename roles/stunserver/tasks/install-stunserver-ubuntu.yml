@@ -1,0 +1,11 @@
+---
+
+- name: Install STUN server package
+  package:
+    name: stunserver
+    state: present
+
+- name: Configure STUN Server
+  template:
+    src: stun.j2
+    dest: /etc/defaults/stun

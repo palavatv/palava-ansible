@@ -2,7 +2,7 @@
 
 - name: Install Elixir and Git
   package:
-    name: [ 'git', 'elixir' ]
+    name: [ 'git', 'elixir', 'erlang-dev' ]
     state: present
 
 - name: Create Signaltower directory
@@ -24,7 +24,7 @@
 - name: Checkout Signaltower
   git: 
     repo: 'https://github.com/palavatv/signaltower.git' 
-    dest: /srv/signaltower
+    dest: "{{ palava_signaltower_install_dir }}"
     version: "{{ palava_signaltower_version }}"
 
 - name: Prepare release

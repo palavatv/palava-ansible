@@ -1,0 +1,21 @@
+# Defaults for stun initscript
+# sourced by /etc/init.d/stun
+# installed at /etc/default/stun by the maintainer scripts
+
+#
+# This is a POSIX shell fragment
+#
+
+#uncommment the next line to allow the init.d script to start the stun daemon 
+START_DAEMON={{ stun_start_daemon }}
+
+# Additional options that are passed to the Daemon.
+DAEMON_OPTS="{{ stun_daemon_opts }}"
+
+PRIMARY_IP="{{ stun_primary_ip }}"
+SECONDARY_IP="{{ stun_secondary_ip }}"
+PRIMARY_PORT={{ stun_primary_port }}
+SECONDARY_PORT={{ stun_seconday_port }}
+
+# whom the daemons should run as
+DAEMON_USER={{ stun_daemon_user }}
