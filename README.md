@@ -3,11 +3,13 @@
 ## Get Started
 
 - Install ansible (prefer newer ansible versions which are python 3 compatible)
-- Copy `ansible.cfg.example` to `ansible.cfg`
+- Copy `ansible.cfg.example` to `ansible.cfg` and put your adapted config options in there.
 
 ## Deploy: Palava Production System
 
-Please note: Replace <ENVIRONMENT> with either **production** or **staging** in the commands below
+Please note: Replace <ENVIRONMENT> with either **production** or **staging** in the commands below.
+
+Sane config defaults are already in place in `environments/<ENVIRONMENT>/group_vars/all/main.yml`, only adapt the settings that are not set there already.
 
 ### Signal tower
 - to enable turn:
