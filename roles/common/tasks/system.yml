@@ -1,0 +1,38 @@
+- name: Set timezone to Berlin
+  community.general.timezone:
+    name: Europe/Berlin
+
+- name: Limit syslogs
+  lineinfile:
+    dest: /etc/systemd/journald.conf
+    regexp: "^#?\\s*SystemMaxFileSize"
+    line: "SystemMaxFileSize=2G"
+  notify: restart journal
+
+- name: Set vim as default editor
+  alternatives:
+    name: editor
+    path: /usr/bin/vim.basic
+
+- name: Allow unattended reboots (1)
+  lineinfile:
+    dest: /etc/apt/apt.conf.d/50unattended-upgrades
+    regexp: "^(//)?Unattended-Upgrade::Automatic-Reboot "
+    line: "Unattended-Upgrade::Automatic-Reboot \"true\";"
+
+- name: Allow unattended reboots (2)
+  lineinfile:
+    dest: /etc/apt/apt.conf.d/50unattended-upgrades
+    regexp: "^(//)?Unattended-Upgrade::Automatic-Reboot-Time "
+    line: "Unattended-Upgrade::Automatic-Reboot-Time \"23:55\";"
+
+- name: Allow more origins for updates
+  lineinfile:
+    dest: /etc/apt/apt.conf.d/50unattended-upgrades
+    regexp: "^(//\\s*)?\"\\$\\{distro_id\\}:\\$\\{distro_codename\\}-updates\";"
+    line: "\"${distro_id}:${distro_codename}-updates\";"
+
+- name: Enable unattended upgrades
+  copy:
+    src: 20auto-upgrades
+    dest: /etc/apt/apt.conf.d/20auto-upgrades

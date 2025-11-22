@@ -1,4 +1,10 @@
-- name: Restart sshd
+- name: restart sshd
   service:
     name: sshd
     state: restarted
+
+- name: restart journal
+  service:
+    name: systemd-journald
+    state: restarted
+    enabled: yes
