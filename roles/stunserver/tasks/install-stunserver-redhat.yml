@@ -1,0 +1,16 @@
+---
+
+- name: Install EPEL
+  package:
+    name: epel-release
+    state: present
+
+- name: Install STUN Server
+  package:
+    name: stun-server
+    state: present
+
+- name: Configure STUN Server
+  template:
+    src: stun.j2
+    dest: /etc/sysconfig/stun

@@ -1,29 +1,12 @@
 ---
-
 palava_signaltower_install_dir: /srv/signaltower-staging
 palava_signaltower_log_dir: /var/log/signaltower-staging
 palava_environment: staging
 
-palava_signaltower_autostart: no
+palava_signaltower_autostart: yes
+palava_signaltower_port: 4234 # overwrite signaltower role default
 
-# Prometheus vars
-prometheus_version: 2.22.0
-prometheus_web_listen_address: '127.0.0.1:9090'
-prometheus_scrape_jobs:
-- job_name: 'signal-tower'
-  metrics_path: /metrics
-  params:
-    module: [http_2xx]
-  static_configs:
-    - targets:
-      - localhost:4233
-# Grafana vars
-grafana_security: 
-  admin_user: admin
-  admin_password: "admin"
-grafana_datasources:
-  - name: prometheus
-    type: prometheus
-    access: proxy
-    url: 'http://{{ prometheus_web_listen_address }}'
-    basicAuth: false
+palava_web_version: chat # v1.1.0
+palava_web_install_dir: /srv/palava-web-staging
+palava_web_log_dir: /srv/palava-web-staging
+palava_web_machine: machine.staging

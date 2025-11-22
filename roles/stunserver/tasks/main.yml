@@ -1,0 +1,11 @@
+---
+
+
+- name: Install Stun Server
+  include_tasks: "install-stunserver-{{ ansible_os_family | lower }}.yml"
+
+- name: Start STUN Server
+  systemd:
+    name: stun
+    enabled: true
+    state: started

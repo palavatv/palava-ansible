@@ -1,0 +1,52 @@
+domains:
+  prometheus: prometheus.palava.tv
+  grafana: grafana.palava.tv
+  alertmanager: alerts.palava.tv
+
+### PROMETHEUS ###
+
+prometheus_version: latest
+prometheus_web_listen_address: "127.0.0.1:9090"
+prometheus_web_external_url: "https://{{ domains.prometheus }}"
+prometheus_storage_retention: 30d
+prometheus_scrape_jobs:
+  - job_name: "signal-tower"
+    metrics_path: /metrics
+    basic_auth:
+      username: "TODO"
+      password: "TODOTODOTODO"
+    params:
+      module: [http_2xx]
+    static_configs:
+      - targets:
+          - machine.palava.tv
+
+### GRAFANA ###
+
+grafana_version: latest
+grafana_address: 127.0.0.1
+grafana_port: 7000
+grafana_url: "https://{{ domains.grafana }}"
+grafana_security:
+  admin_user: TODO
+  admin_password: "TODO"
+grafana_datasources:
+  - name: prometheus
+    type: prometheus
+    url: "http://{{ prometheus_web_listen_address }}"
+    basicAuth: false
+    basicAuthUser: "TODO"
+    basicAuthPassword: "TODO"
+
+### ALERTMANAGER ###
+
+alertmanager_version: 0.23.0
+alertmanager_web_listen_address: 127.0.0.1:9093
+alertmanager_web_external_url: "https://{{ domains.alertmanager }}"
+#alertmanager_receivers: TODO
+alertmanager_route:
+  group_by: ["alertname", "cluster", "service"]
+  group_wait: 30s
+  group_interval: 5m
+  repeat_interval: 3h
+  receiver: slack

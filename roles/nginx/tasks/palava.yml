@@ -1,0 +1,14 @@
+- name: Copy palava configuration
+  notify: restart nginx
+  template:
+    src: nginx-palava.conf.j2
+    dest: "/etc/nginx/sites-available/palava"
+
+- name: Activate {{ deploy_env }} configuration
+  notify: restart nginx
+  file:
+    src: "/etc/nginx/sites-available/palava"
+    dest: "/etc/nginx/sites-enabled/palava"
+    owner: root
+    group: root
+    state: link

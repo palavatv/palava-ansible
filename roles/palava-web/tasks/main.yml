@@ -13,8 +13,13 @@
   file:
     path: "{{ palava_web_install_dir }}"
     state: directory
-    owner: www-data
-    group: www-data
+    # git complains if the owner:group:mode of the directory is different than
+    # the owner:group of the files in the directory, which happens when
+    # executed under the root role. Currently, www-data doesn't exist on the
+    # server.
+    # Uncomment when palava_user is defined for palava_web
+    # owner: "{{ palava_user }}"
+    # group: "{{ palava_user }}"
     mode: 0775
 
 - name: Checkout palava-web source

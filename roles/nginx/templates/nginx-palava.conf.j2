@@ -1,0 +1,76 @@
+## SIGNAL TOWER ##
+
+upstream tower {
+  server 127.0.0.1:4233;
+}
+
+## PALAVA WEB ##
+
+server {
+  listen 443 ssl http2;
+  server_name palava.tv www.palava.tv;
+  root /srv/palava-web/dist;
+  client_max_body_size 1G;
+
+  include ssl_extra;
+  ssl_certificate /etc/letsencrypt/live/palava.tv/fullchain.pem;
+  ssl_certificate_key /etc/letsencrypt/live/palava.tv/privkey.pem;
+
+  location / {
+    if (-f $request_filename) {
+      expires max;
+      break;
+    }
+    rewrite ^/(.+)$ / last;
+  }
+}
+
+server {
+  listen 443 ssl http2;
+  server_name machine.palava.tv;
+
+  include ssl_extra;
+  ssl_certificate /etc/letsencrypt/live/palava.tv/fullchain.pem;
+  ssl_certificate_key /etc/letsencrypt/live/palava.tv/privkey.pem;
+
+  location / {
+    try_files /nofile @$http_upgrade;
+  }
+
+  location @websocket {
+    proxy_pass http://tower;
+    proxy_http_version 1.1;
+    proxy_set_header Upgrade $http_upgrade;
+    proxy_set_header Connection "upgrade";
+    proxy_read_timeout 86400;
+  }
+
+  location @ {
+    root /var/www/html/;
+  }
+}
+
+## HTTP REDIRECTS ##
+
+server {
+  listen 80;
+  server_name palava.tv *.palava.tv;
+
+  location / {
+    return 301 https://$host$request_uri;
+  }
+}
+
+## HTTPS REDIRECTS ##
+
+server {
+  listen 443 ssl http2;
+  server_name www.palava.tv;
+
+  include ssl_extra;
+  ssl_certificate /etc/letsencrypt/live/palava.tv/fullchain.pem;
+  ssl_certificate_key /etc/letsencrypt/live/palava.tv/privkey.pem;
+
+  rewrite ^/(.*) https://palava.tv/$1;
+  rewrite ^/(.*) https://palava.tv/$1 permanent;
+}
