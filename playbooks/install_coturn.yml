@@ -1,0 +1,6 @@
+- hosts: coturn
+  remote_user: root
+  become: yes
+  roles:
+    - common
+    - systemli.coturn

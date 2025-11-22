@@ -1,0 +1,4 @@
+# should be the same as palava_signaltower_turn_secret in
+# environments/production/group_vars/all/main.yml
+coturn_static_auth_secret: ''
+coturn_realm: 'turn.palava.tv'

@@ -30,9 +30,16 @@ Sane config defaults are already in place in `environments/<ENVIRONMENT>/group_v
 
 Requirements: jmespath (deployer host), unzip (target host)
 
-Adjust inventory and config variables in `environments/monitoring/group_vars/monitoring/main.yml` before prodceeding.
+Adjust inventory and config variables in `environments/monitoring/` before proceeding.
 
 ### Prometheus + Grafana + Alert Manager
 
 - `ansible-galaxy install cloudalchemy.alertmanager`
 - `ansible-playbook -i environments/monitoring/inventory.yml playbooks/install_monitoring.yml`
+
+## Deploy: Coturn (Optional)
+
+Adjust inventory and config variables in `environments/coturn/` before proceeding.
+
+- `ansible-galaxy install systemli.coturn`
+- `ansible-playbook -i environments/monitoring/inventory.yml playbooks/install_coturn.yml`
