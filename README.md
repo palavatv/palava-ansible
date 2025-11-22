@@ -10,7 +10,9 @@
 Please note: Replace <ENVIRONMENT> with either **production** or **staging** in the commands below
 
 ### Signal tower
-
+- to enable turn:
+  - set `palava_signaltower_turn_enabled` to `yes`
+  - set `palava_signaltower_turn_secret`
 - `ansible-playbook -i environments/<ENVIRONMENT>/inventory.yml playbooks/install_signaltower.yml`
 
 ### Palava Web
@@ -22,12 +24,14 @@ Please note: Replace <ENVIRONMENT> with either **production** or **staging** in 
 
 Requirements: jmespath (deployer host), unzip (target host)
 
+Adapt the variables in `environments/production/group_vars/all/main.yml` to your needs.
+
 ### Grafana
 
 - `ansible-galaxy install cloudalchemy.grafana`
-- `ansible-playbook -i environments/monitoring/inventory.yml playbooks/install_grafana.yml`
+- `ansible-playbook -i environments/production/inventory.yml playbooks/install_grafana.yml`
 
 ### Prometheus
 
 - `ansible-galaxy install cloudalchemy.prometheus`
-- `ansible-playbook -i environments/monitoring/inventory.yml playbooks/install_prometheus.yml`
+- `ansible-playbook -i environments/production/inventory.yml playbooks/install_prometheus.yml`
