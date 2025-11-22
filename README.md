@@ -12,13 +12,17 @@ Please note: Replace <ENVIRONMENT> with either **production** or **staging** in 
 Sane config defaults are already in place in `environments/<ENVIRONMENT>/group_vars/all/main.yml`, only adapt the settings that are not set there already.
 
 ### Signal tower
-- to enable turn:
+- settings: turn:
   - set `palava_signaltower_turn_enabled` to `yes`
   - set `palava_signaltower_turn_secret`
 - `ansible-playbook -i environments/<ENVIRONMENT>/inventory.yml playbooks/install_signaltower.yml`
 
 ### Palava Web
 
+- settings:
+  - url of the signaltower: `palava_web_rtc_url` (should start with wss://)
+  - url of the stun server: `palava_web_stun_url` (should start with stun:)
+  - url of the signaltower: `palava_web_turn_urls` (comma separated entries, should start with turn: or turns:)
 - `ansible-galaxy collection install community.general` (node)
 - `ansible-playbook -i environments/<ENVIRONMENT>/inventory.yml playbooks/install_palava_web.yml`
 

@@ -7,6 +7,7 @@ palava_signaltower_autostart: yes
 palava_signaltower_port: 4234 # overwrite signaltower role default
 
 palava_web_version: chat # v1.1.0
+palava_web_rtc_url: 'wss://machine.staging.palava.tv'
+palava_web_stun_url: 'stun:stun.palava.tv'
 palava_web_install_dir: /srv/palava-web-staging
 palava_web_log_dir: /srv/palava-web-staging
-palava_web_machine: machine.staging
