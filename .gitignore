@@ -1,2 +1,2 @@
 ansible.cfg
-roles/cloudalchemy.*
+roles/cloudalchemy*

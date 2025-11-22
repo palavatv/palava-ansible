@@ -1,5 +1,4 @@
 ---
-
 palava_signaltower_install_dir: /srv/signaltower-production
 palava_signaltower_log_dir: /var/log/signaltower-production
 palava_environment: production
@@ -13,25 +12,3 @@ palava_web_version: v1.1.0
 palava_web_install_dir: /srv/palava-web
 palava_web_log_dir: /srv/palava-web
 palava_web_machine: machine
-
-# Prometheus vars
-prometheus_version: 2.22.0
-prometheus_web_listen_address: '127.0.0.1:9090'
-prometheus_scrape_jobs:
-- job_name: 'signal-tower'
-  metrics_path: /metrics
-  params:
-    module: [http_2xx]
-  static_configs:
-    - targets:
-      - localhost:4233
-# Grafana vars
-grafana_security:
-  admin_user: admin
-  admin_password: "admin"
-grafana_datasources:
-  - name: prometheus
-    type: prometheus
-    access: proxy
-    url: 'http://{{ prometheus_web_listen_address }}'
-    basicAuth: false

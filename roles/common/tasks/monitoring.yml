@@ -1,0 +1,4 @@
+---
+- include: upgrade.yml
+- include: packages-monitoring.yml
+- include: ssh.yml
