@@ -2,3 +2,7 @@
 # environments/production/group_vars/all/main.yml
 coturn_static_auth_secret: ''
 coturn_realm: 'turn.palava.tv'
+coturn_listening_port: 80
+coturn_tls_listening_port: 443
+coturn_user_quota: 20
+coturn_listening_ips: ['88.198.120.168', '2a01:4f8:c0c:71e5::1']

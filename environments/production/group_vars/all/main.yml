@@ -11,6 +11,6 @@ palava_signaltower_autostart: yes
 palava_web_version: v1.1.0 # TODO: fix main branch
 palava_web_rtc_url: 'wss://machine.palava.tv'
 palava_web_stun_url: 'stun:stun.palava.tv'
-palava_web_turn_urls: 'turn:turn.palava.tv:80,turn:turn.palava.tv:80?transport=tcp,turns:turn.palava.tv:443'
+palava_web_turn_urls: 'turn:turn.palava.tv:80,turn:turn.palava.tv:443?transport=tcp'
 palava_web_install_dir: /srv/palava-web
 palava_web_log_dir: /srv/palava-web
