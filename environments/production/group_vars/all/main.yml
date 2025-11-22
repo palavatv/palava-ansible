@@ -8,6 +8,11 @@ palava_environment: production
 
 palava_signaltower_autostart: yes
 
+palava_web_version: v1.1.0
+palava_web_install_dir: /srv/palava-web
+palava_web_log_dir: /srv/palava-web
+palava_web_machine: machine
+
 # Prometheus vars
 prometheus_version: 2.22.0
 prometheus_web_listen_address: '127.0.0.1:9090'

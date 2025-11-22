@@ -1,12 +1,22 @@
-- name: Add nodesource key
-  apt_key:
-    url: https://deb.nodesource.com/gpgkey/nodesource.gpg.key
-    state: present
+- name: Add nodesource key and repo
+  block:
+    - name: nodesource repo key
+      ansible.builtin.get_url:
+        url: https://deb.nodesource.com/gpgkey/nodesource.gpg.key
+        dest: /etc/apt/trusted.gpg.d/nodesource.asc
+        mode: '0644'
+        # force: true # some tutorial sets this, I'm more careful.
 
-- name: Copy nodesource apt sources
-  copy:
-    src: nodesource.list
-    dest: /etc/apt/sources.list.d/nodesource.list
+    - name: add nodesource repository to apt
+      ansible.builtin.apt_repository:
+        repo: "deb [signed-by=/etc/apt/trusted.gpg.d/nodesource.asc]  https://deb.nodesource.com/node_14.x focal main"
+        state: present
+
+- name: Install npm
+  apt:
+    name: npm
+    update_cache: yes
+    state: present
 
 - name: Install node
   apt:
@@ -17,4 +27,9 @@
 - name: Install global modules
   community.general.npm:
     name: yarn
+    global: yes
+
+- name: Install vue.cli
+  community.general.npm:
+    name: vue/cli
     global: yes
