@@ -28,6 +28,11 @@
     dest: "{{ palava_web_install_dir }}"
     version: "{{ palava_web_version }}"
 
-- name: Start palava-web
-  shell: "cd {{ palava_web_install_dir }} && VUE_APP_RTC_URL=wss://{{ palava_web_machine }}.palava.tv VUE_APP_STUN_URL=\"stun:stun.palava.tv\" VUE_APP_TURN_URLS=\"turn:turn.palava.tv:80,turn:turn.palava.tv:80?transport=tcp,turns:turn.palava.tv:443\"  yarnpkg build"
-  #NODE_OPTIONS=\"--openssl-legacy-provider\" #node: --openssl-legacy-provider is not allowed in NODE_OPTIONS
+- name: Install palava-web dependencies
+  community.general.yarn:
+    path: "{{ palava_web_install_dir }}"
+
+- name: Build palava-web frontend
+  shell: "VUE_APP_RTC_URL='{{ palava_web_rtc_url }}' VUE_APP_TURN_URLS='{{ palava_web_turn_urls }}' VUE_APP_STUN_URL='{{ palava_web_stun_url }}' yarn build"
+  args:
+    chdir: "{{ palava_web_install_dir }}"
